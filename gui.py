@@ -8,7 +8,7 @@ class App:
     def __init__(self):
         self.rn = Rename()
         self.root = Tk()
-        self.root.title('BoarRename2')
+        self.root.title('BoarRename')
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
         self.root.resizable(FALSE,FALSE)
@@ -24,12 +24,19 @@ class App:
         self.max_var.set(148)
         self.a_dir.set('Directory')
         self.folder = None
-        self.tree = ttk.Treeview(self.mainframe, columns=('size'))
+        self.tree = ttk.Treeview(self.mainframe, columns=('newname'))
         self.tree.grid(column=1, row=3, columnspan=5)
         self.tree.heading('#0', text='Current Filename')
         self.tree.heading('0', text='New Filename')
+        self.tree.column('#0',width=300)
+        self.tree.column('0', width=300)
 
-        self.path = ttk.Label(self.mainframe, width=50, textvariable=self.a_dir)
+        self.scroll = ttk.Scrollbar(self.mainframe, orient=VERTICAL, command=self.tree.yview)
+        self.scroll.grid(column=6, row=3, sticky=(N,S))
+
+        self.tree.configure(yscrollcommand=self.scroll.set)
+
+        self.path = ttk.Label(self.mainframe, width=100, textvariable=self.a_dir)
         self.path.grid(column=1, row=1, columnspan=5, sticky=W)
 
         self.dir_entry = ttk.Entry(self.mainframe, width=7, textvariable=self.dir_name)
@@ -44,7 +51,7 @@ class App:
         self.ab = ttk.Button(self.mainframe, text='Select Directory', command=self.open_dir)
         self.ab.grid(column=1, row=4, sticky=W)
 
-        self.refresh = ttk.Button(self.mainframe, text='refresh/preview')
+        self.refresh = ttk.Button(self.mainframe, text='refresh/preview', command=self.refresh)
         self.refresh.grid(column=2, row=4, sticky=W)
 
         self.apply = ttk.Button(self.mainframe, text='Apply', command=self.apply)
@@ -59,12 +66,17 @@ class App:
         if len(self.folder) > 0:
             self.a_dir.set(self.folder)
             self.folder = self.rn.inputs(self.folder)
+            self.tree.delete(*self.tree.get_children())
             preview = self.rn.preview(self.folder,self.tree)
+            print(self.tree)
             self.dir_name.set(preview)
             self.apply.state(['!disabled'])
         else:
             self.apply.state(['disabled'])
             return
+
+    def refresh(self):
+        print('refreshed')
 
     def apply(self):
         name = self.dir_name.get()

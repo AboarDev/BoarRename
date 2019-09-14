@@ -47,12 +47,3 @@ class Rename:
             if count == maxcount:
                 exit()
             count += 1
-
-
-if __name__ == '__main__':
-    controller = Rename()
-    dirr = controller.inputs()
-    controller.preview(dirr)
-    if input('y to continue') == 'y':
-        controller.getstartandmax()
-        controller.renames(dirr,1,200)
