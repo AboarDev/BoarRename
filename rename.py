@@ -16,7 +16,7 @@ class Rename:
         self.start = int(duo[0])
         self.max = int(duo[1])
 
-    def preview(self, directory):
+    def preview(self, directory, gui=False):
         print(f'+ {directory}')
         count = self.start
         maxcount = self.max
@@ -27,8 +27,9 @@ class Rename:
             # spacer = '    ' * depth
             # print(f'{spacer}+ {path.name}')
             epno = str(count).zfill(2)
-            nameString = f"({path.name}){parts} - {epno}{path.suffix}"
-            print(nameString)
+            nameString = f"{parts} - {epno}{path.suffix}"
+            if gui:
+                gui.insert('', 'end', path.name, text=path.name, values=(nameString,''))
             if count == maxcount:
                 exit()
             count += 1

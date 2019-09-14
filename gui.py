@@ -26,7 +26,6 @@ class App:
         self.folder = None
         self.tree = ttk.Treeview(self.mainframe, columns=('size'))
         self.tree.grid(column=1, row=3, columnspan=5)
-        self.tree.insert('', 'end', 'widgets', text='Widget Tour', values=(''))
         self.tree.heading('#0', text='Current Filename')
         self.tree.heading('0', text='New Filename')
 
@@ -60,7 +59,7 @@ class App:
         if len(self.folder) > 0:
             self.a_dir.set(self.folder)
             self.folder = self.rn.inputs(self.folder)
-            preview = self.rn.preview(self.folder)
+            preview = self.rn.preview(self.folder,self.tree)
             self.dir_name.set(preview)
             self.apply.state(['!disabled'])
         else:
