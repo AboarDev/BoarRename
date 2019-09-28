@@ -77,6 +77,8 @@ class App:
 
     def refresh(self):
         print('refreshed')
+        self.tree.delete(*self.tree.get_children())
+        self.dir_name.set(self.rn.preview(self.folder, self.tree,self.dir_name.get()))
 
     def apply(self):
         name = self.dir_name.get()
