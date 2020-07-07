@@ -1,4 +1,4 @@
 # BoarRename
-A simple gui batch renamer
+A simple gui batch renamer that can rename files sequentially or clean up names
 
-Uses python and tkinter. Take this and make something actually good if you want idc
+Uses python and tkinter
