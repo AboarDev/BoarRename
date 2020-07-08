@@ -9,6 +9,8 @@ class Rename:
         self.start = 1
         self.addSpacing = True
         self.theMode = 0
+        self.extensions = ["ANY"]
+        self.theExtension = 0
 
     def inputs(self, path):
         # apath = input('File path')
@@ -37,15 +39,18 @@ class Rename:
         parts = parts[len(directory.parts) - 1]
         if customName:
             parts = customName
-        for path in sorted(directory.glob('*.mkv')):
+        self.extensions = []
+        for path in sorted(directory.glob('*.*')):
             # depth = len(path.relative_to(directory).parts)
             # spacer = '    ' * depth
             # print(f'{spacer}+ {path.name}')
+            if path.suffix not in self.extensions:
+                self.extensions.append(path.suffix)
             nameString = self.getNameString(count,parts,path)
             gui.insert('', 'end', path.name, text=path.name, values=(nameString,''))
             count += 1
         self.max = count -1
-        print(count)
+        print(self.extensions)
         return parts
 
     def renames(self, directory, name, count, maxcount):
@@ -53,7 +58,11 @@ class Rename:
         # maxcount = self.max
         parts = directory.parts
         parts = parts[len(directory.parts)-1]
-        for path in sorted(directory.glob('*.mkv')):
+        if self.theExtension != 0:
+            theExtension = f'*.{self.extensions[self.theExtension]}'
+        else:
+            theExtension = '*.*'
+        for path in sorted(directory.glob(theExtension)):
             epno = str(count).zfill(2)
             nameString = self.getNameString(count,parts,path)
             nameString = f"{directory}\{nameString}"
