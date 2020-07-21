@@ -22,9 +22,9 @@ class Rename:
             epno = str(count).zfill(2)
             nameString = f"{parts} - {epno}{path.suffix}"
         elif self.theMode == 1:
-            nameString = str(count)
+            nameString = f'{str(count)}{path.suffix}'
         elif self.theMode == 2:
-            nameString = str(count).zfill(4)
+            nameString = f'{str(count).zfill(4)}{path.suffix}'
         elif self.theMode == 3:
             nameString = re.sub(r"([\s_]?)([\[\(]([^\]\[\(\)]|[\[\(][\]\)])*[\]\)])([\s_]?)",'',path.name)
         if self.addSpacing:
@@ -39,7 +39,6 @@ class Rename:
         parts = parts[len(directory.parts) - 1]
         if customName:
             parts = customName
-        self.extensions = []
         for path in sorted(directory.glob('*.*')):
             # depth = len(path.relative_to(directory).parts)
             # spacer = '    ' * depth
@@ -59,7 +58,7 @@ class Rename:
         parts = directory.parts
         parts = parts[len(directory.parts)-1]
         if self.theExtension != 0:
-            theExtension = f'*.{self.extensions[self.theExtension]}'
+            theExtension = '*'+ self.extensions[self.theExtension]
         else:
             theExtension = '*.*'
         for path in sorted(directory.glob(theExtension)):

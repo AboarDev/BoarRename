@@ -83,6 +83,7 @@ class App:
         self.selectExtension = ttk.Combobox(self.mainframe,state='readonly', values=self.extensions, postcommand=self.getExtensions)
         self.selectExtension.grid(column = 2, row =7)
         self.selectExtension.current(newindex = 0)
+        self.selectExtension.bind('<<ComboboxSelected>>',self.setExtension)
 
         for child in self.mainframe.winfo_children():
             child.grid_configure(padx=5, pady=5)
